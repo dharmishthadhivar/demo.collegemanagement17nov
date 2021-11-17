@@ -3,7 +3,11 @@ package com.example.collegemanagement.demo.collegemanagement.Services;
 import com.example.collegemanagement.demo.collegemanagement.Dao.DepartmentDao;
 import com.example.collegemanagement.demo.collegemanagement.QueryConstant;
 import com.example.collegemanagement.demo.collegemanagement.connectionHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +17,8 @@ import com.google.gson.GsonBuilder;
 @Component
 public class DepartmentServices {
     PreparedStatement ps;
+   // @Autowired
+    private JdbcTemplate jdbcTemplate;
     public List getDepartment() {
         List<DepartmentDao> Listifa = new ArrayList<>();
         Connection connection = connectionHelper.getconnection();
@@ -49,8 +55,6 @@ public class DepartmentServices {
             ps.setString(2,deptHead);
             ps.setString(3,teachersAll);
             count = ps.executeUpdate ();
-
-
             con.close();
         }
         catch (Exception e)
@@ -94,16 +98,10 @@ public class DepartmentServices {
         // int length=0;
         try {
             Connection con = connectionHelper.getconnection();
-
-
             Statement stmt = con.createStatement();
             ps = con.prepareStatement(QueryConstant.deleteQueryDepartment);
-
-
             ps.setInt(1,deptid);
             count = ps.executeUpdate ();
-
-
             con.close();
         }
         catch (Exception e)
@@ -138,4 +136,23 @@ public class DepartmentServices {
         }
         return i;
     }
+
+    public void insertMultipledepartment(List<DepartmentDao> department) {
+        jdbcTemplate.batchUpdate(QueryConstant.insertQueryDepartment, new BatchPreparedStatementSetter() {
+
+            @Override
+            public void setValues(PreparedStatement pStmt, int j) throws SQLException {
+                DepartmentDao student = department.get(j);
+                pStmt.setString(1, student.getDepartmentName());
+                pStmt.setString(2, student.getDepartmentHead());
+                pStmt.setString(3, student.getTeachersAll());
+            }
+            @Override
+            public int getBatchSize() {
+                return department.size();
+            }
+
+        });
+    }
+
 }
