@@ -70,11 +70,11 @@ public class LoginController {
     }
     @RequestMapping(path = "/findregisteredUser", method = RequestMethod.GET)
     @ResponseBody
-    public String findregisteredUser(@RequestParam String email, @RequestParam String password)throws IOException
+    public String  findregisteredUser(@RequestParam String email, @RequestParam String password)throws IOException
     {
         String emailstring=email;
         String passwordString=password;
-        String s=service.finduser(emailstring,passwordString);
-        return s;
+        String  find=service.finduser(emailstring,passwordString);
+        return find;
     }
 }

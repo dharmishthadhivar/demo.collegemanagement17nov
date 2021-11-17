@@ -50,8 +50,8 @@ public class LoginServices {
             ps = con.prepareStatement(QueryConstant.insertQueryRegister);
 
             ps.setString(1,userName);
-            ps.setString(3,email);
-            ps.setString(2,password);
+            ps.setString(2,email);
+            ps.setString(3,password);
             count = ps.executeUpdate ();
             con.close();
         }
@@ -132,18 +132,19 @@ public class LoginServices {
     {
         Connection connection = connectionHelper.getconnection();
         String user="";
-
+        int find=0;
         try {
             ResultSet rs;
             Statement stmt = connection.createStatement();
-            rs = stmt.executeQuery(QueryConstant.findRegisterUser);
+            ps=connection.prepareStatement(QueryConstant.findRegisterUser);
             ps.setString(1,email);
             ps.setString(2,password);
-            rs= ps.executeQuery();
+            rs =ps.executeQuery();
             if(rs.next())
-                user="user found";
+                user="found";
             else
-              user="user not found";
+                user="not found";
+            return user;
         }
         catch (SQLException ex) {
             ex.printStackTrace();

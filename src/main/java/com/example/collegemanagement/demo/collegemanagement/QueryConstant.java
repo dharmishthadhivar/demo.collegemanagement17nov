@@ -15,7 +15,7 @@ public class QueryConstant {
         public static final String insertQueryRegister= "INSERT INTO register(userName,email,password) VALUES ((?),(?),(?))";
         public static final String deleteQueryLogin="delete from register where userId=?";
         public static final String totalcountLogin="select count(*) as total from register";
-        public static final String findRegisterUser="select email,password from register where email=?,password=?";
+        public static final String findRegisterUser="select * from register where email=(?) and password=(?)";
 
     }
 
