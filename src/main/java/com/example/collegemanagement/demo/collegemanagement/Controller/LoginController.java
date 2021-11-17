@@ -18,7 +18,7 @@ public class LoginController {
     LoginServices service;
     @RequestMapping(path = "/getLoginCount", method = RequestMethod.GET)
     @ResponseBody
-    public int getdepartmentcount()
+    public int getRegistercount()
     {
         int totaldepartment= service.totallogin();
         return totaldepartment;
@@ -42,12 +42,11 @@ public class LoginController {
 
     @RequestMapping(path = "/insertLogin", method = RequestMethod.POST)
     @ResponseBody
-    public int DepartmentInsert(@RequestParam String userName,@RequestParam String password) throws IOException {
-        //Declaration
-        String  deptIdd=userName;
+    public int LoginInsert(@RequestParam String userName,@RequestParam String email,@RequestParam String password) throws IOException {
+        String  usernameString=userName;
+        String  emailstring=email;
         String passwordstring = password;
-
-        int count = service.Insert(userName,password);
+        int count = service.Insert(usernameString,emailstring,passwordstring);
         return count;
     }
 
@@ -58,10 +57,8 @@ public class LoginController {
         int userIdString = userId;
         String username = userName;
         String passwprd = password;
-
         int count = service.update(userId,userName,password);
         return count;
-
     }
     @RequestMapping(path = "/deleteLogin", method = RequestMethod.DELETE)
     @ResponseBody
@@ -71,8 +68,13 @@ public class LoginController {
         int count = service.delete(userIdString);
         return count;
     }
-
-
-
-
+    @RequestMapping(path = "/findregisteredUser", method = RequestMethod.GET)
+    @ResponseBody
+    public String findregisteredUser(@RequestParam String email, @RequestParam String password)throws IOException
+    {
+        String emailstring=email;
+        String passwordString=password;
+        String s=service.finduser(emailstring,passwordString);
+        return s;
+    }
 }

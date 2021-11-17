@@ -32,17 +32,16 @@ public class departmentController {
     @RequestMapping(path = "/getDepartment", method = RequestMethod.GET)
     @ResponseBody
 
-    public String getUsersgson() {
+    public String getdepartmentgson() {
 
         List<String> listdepartment;
-        //DepartmentDao department=new DepartmentDao();
         DepartmentServices deptservice = new DepartmentServices();
         List<DepartmentDao> Listifa = new ArrayList<>();
-        Listifa = deptservice.getDepartment();
+
         listdepartment = service.getDepartment();
         String gsonlistDepartment=service.convertListtoJson(listdepartment);
         return gsonlistDepartment;
-       // return listdepartment;
+
     }
 
 
@@ -55,7 +54,7 @@ public class departmentController {
        String deptnamestring = deptname;
        String deptHeadstring = deptHead;
        String teachersallstring =teachersall;
-       int count = service2.Insert(deptId,deptname,deptHead,teachersall);
+       int count = service2.Insert(deptname,deptHead,teachersall);
        return count;
    }
 

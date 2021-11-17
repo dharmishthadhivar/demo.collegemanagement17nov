@@ -37,20 +37,17 @@ public class DepartmentServices {
         return Listifa;
         //  return null;
     }
-    public int Insert(int deptid,String deptname,String deptHead,String teachersAll)
+    public int Insert(String deptname,String deptHead,String teachersAll)
     {
         int count=0;
         // int length=0;
         try {
             Connection con = connectionHelper.getconnection();
-
-
             Statement stmt = con.createStatement();
             ps = con.prepareStatement(QueryConstant.insertQueryDepartment);
-            ps.setInt(1,deptid);
-            ps.setString(2,deptname);
-            ps.setString(3,deptHead);
-            ps.setString(4,teachersAll);
+            ps.setString(1,deptname);
+            ps.setString(2,deptHead);
+            ps.setString(3,teachersAll);
             count = ps.executeUpdate ();
 
 

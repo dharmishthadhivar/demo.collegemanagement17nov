@@ -41,14 +41,16 @@ public class LoginServices {
         return Listifa;
         //  return null;
     }
-    public int Insert(String userName,String password)
+    public int Insert(String userName,String email,String password)
     {
         int count=0;
         try {
             Connection con = connectionHelper.getconnection();
             Statement stmt = con.createStatement();
-            ps = con.prepareStatement(QueryConstant.insertQueryLogin);
+            ps = con.prepareStatement(QueryConstant.insertQueryRegister);
+
             ps.setString(1,userName);
+            ps.setString(3,email);
             ps.setString(2,password);
             count = ps.executeUpdate ();
             con.close();
@@ -124,6 +126,30 @@ public class LoginServices {
 
         }
         return i;
+    }
+
+    public String finduser(String email, String password)
+    {
+        Connection connection = connectionHelper.getconnection();
+        String user="";
+
+        try {
+            ResultSet rs;
+            Statement stmt = connection.createStatement();
+            rs = stmt.executeQuery(QueryConstant.findRegisterUser);
+            ps.setString(1,email);
+            ps.setString(2,password);
+            rs= ps.executeQuery();
+            if(rs.next())
+                user="user found";
+            else
+              user="user not found";
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+
+        }
+        return user;
     }
 
 }
